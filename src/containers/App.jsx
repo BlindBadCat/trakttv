@@ -1,10 +1,12 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Head from '../components/Head';
+import { connect } from 'react-redux';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { fetchShowsIfNeeded } from '../actions';
-import MoviesList from './ShowTable';
+import Head from '../components/Head';
 import Buttons from './Buttons';
+import MoviesList from './ShowTable';
+import PageNotFound404 from '../components/PageNotFound404';
 
 
 const App = ({ fetchShowsIfNeededAction, urlParams }) => {
@@ -15,11 +17,16 @@ const App = ({ fetchShowsIfNeededAction, urlParams }) => {
   getUpdate();
 
   return (
-
     <div>
       <Head />
       <Buttons />
-      <MoviesList />
+      <BrowserRouter>
+        <Switch>
+          <Route path="/" exact component={MoviesList} />
+          <Route component={PageNotFound404} />
+        </Switch>
+      </BrowserRouter>
+
     </div>
 
   );
