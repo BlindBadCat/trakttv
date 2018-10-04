@@ -9,7 +9,11 @@ const Categories = ({
 }) => {
   const handleSelect = (value) => {
     const genre = `&genres=${value}`;
-    const newParams = { ...urlParams, genre };
+    const newParams = {
+      ...urlParams,
+      genre,
+      pagination: { ...urlParams.pagination, currentPage: 1 },
+    };
     resetForNewFetchAction();
     resetPostersForPaginationAction();
     fetchShowsIfNeededAction(newParams);
