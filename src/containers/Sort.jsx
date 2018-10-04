@@ -10,7 +10,11 @@ const Sort = ({
 }) => {
   const handleSelect = (value) => {
     const searchUrl = `shows/${value}/all`;
-    const newParams = { ...urlParams, searchUrl };
+    const newParams = {
+      ...urlParams,
+      searchUrl,
+      pagination: { ...urlParams.pagination, currentPage: 1 },
+    };
     resetForNewFetchAction();
     resetPostersForPaginationAction();
     fetchShowsIfNeededAction(newParams);
