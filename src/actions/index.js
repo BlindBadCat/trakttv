@@ -58,11 +58,6 @@ const fetchShows = urlParams => (dispatch) => {
   const {
     searchUrl, pagination, query, genre,
   } = urlParams;
-  //console.log('_________')
-  //console.log(urlParams)
-  //console.log('_________')
-  //console.log(pagination)
-  //console.log('_________')
   const { currentPage, limit } = pagination;
   const urlForTraktTVFetch = `https://api.trakt.tv/${searchUrl}?extended=full&page=${currentPage}&limit=${limit}${query}${genre}`;
   dispatch(getShowsRequest());
