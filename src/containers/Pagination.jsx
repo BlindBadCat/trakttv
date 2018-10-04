@@ -14,11 +14,7 @@ const Pagination = ({
     fetchShowsIfNeededAction(newParams);
   };
   const { pagination } = urlParams;
-  return (
-    <div>
-      <PaginationContainer handleClick={onClickHandler} pagination={pagination} />
-    </div>
-  );
+  return <PaginationContainer handleClick={onClickHandler} pagination={pagination} />;
 };
 
 const mapStateToProps = store => ({
