@@ -9,7 +9,9 @@ const Search = ({
 }) => {
   const handleSubmit = (value) => {
     const query = `&query=${value}`;
-    const newParams = { ...urlParams, query, genre: '' };
+    const newParams = {
+      ...urlParams, query, genre: '', pagination: { ...urlParams.pagination, currentPage: 1 },
+    };
     resetForNewFetchAction();
     resetPostersForPaginationAction();
     fetchShowsIfNeededAction(newParams);
