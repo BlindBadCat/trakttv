@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from 'react-spinkit';
 import { fetchPosterIfNeeded } from '../actions';
@@ -40,7 +41,6 @@ const ShowTable = ({
   );
 };
 
-
 const mapStateToProps = store => ({
   shows: store.shows.shows,
   urlParams: store.shows.urlParams,
@@ -50,6 +50,38 @@ const mapStateToProps = store => ({
 const mapDispatchToProps = dispatch => ({
   fetchPosterAction: ids => dispatch(fetchPosterIfNeeded(ids)),
 });
+
+ShowTable.propTypes = {
+  urlParams: PropTypes.shape({
+    pagination: PropTypes.shape({
+      pageCount: PropTypes.number.isRequired,
+      limit: PropTypes.number.isRequired,
+      currentPage: PropTypes.number.isRequired,
+      itemCount: PropTypes.number.isRequired,
+    }),
+    searchUrl: PropTypes.string.isRequired,
+    query: PropTypes.string.isRequired,
+    genre: PropTypes.string.isRequired,
+  }).isRequired,
+  shows: PropTypes.shape({
+    show: PropTypes.shape({
+      rating: PropTypes.string.isRequired,
+      year: PropTypes.number.isRequired,
+      aired_episodes: PropTypes.number.isRequired,
+      trailer: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      ids: PropTypes.shape({
+        tvdb: PropTypes.number.isRequired,
+      }).isRequired,
+    }).isRequired,
+  }).isRequired,
+  fetchPosterAction: PropTypes.func.isRequired,
+  urls: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    url: PropTypes.string.isRequired,
+  }).isRequired,
+};
+
 
 export default connect(
   mapStateToProps,
