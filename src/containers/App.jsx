@@ -40,7 +40,7 @@ App.propTypes = {
       limit: PropTypes.number.isRequired,
       currentPage: PropTypes.number.isRequired,
       itemCount: PropTypes.number.isRequired,
-    }),
+    }).isRequired,
     searchUrl: PropTypes.string.isRequired,
     query: PropTypes.string.isRequired,
     genre: PropTypes.string.isRequired,

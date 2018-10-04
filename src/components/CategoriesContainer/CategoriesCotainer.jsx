@@ -1,12 +1,13 @@
-import React from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
 
-const Categories = ({handleSelect})=>{
+const Categories = ({ handleSelect }) => {
   const select = (e) => {
     e.preventDefault();
     const { value } = e.target;
     handleSelect(value);
-  }
-  return(
+  };
+  return (
     <div>
       Genre:
       <select className="custom-select" onChange={select}>
@@ -23,7 +24,11 @@ const Categories = ({handleSelect})=>{
       </select>
 
     </div>
-  )
-}
+  );
+};
 
-export default Categories
+Categories.propTypes = {
+  handleSelect: PropTypes.func.isRequired,
+};
+
+export default Categories;

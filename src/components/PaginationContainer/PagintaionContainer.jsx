@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const PaginationContainer = ({ handleClick, pagination }) => {
   const click = (e) => {
@@ -25,5 +26,16 @@ const PaginationContainer = ({ handleClick, pagination }) => {
     pageButtons
   );
 };
+
+PaginationContainer.propTypes = {
+  handleClick: PropTypes.func.isRequired,
+  pagination: PropTypes.shape({
+    pageCount: PropTypes.number.isRequired,
+    limit: PropTypes.number.isRequired,
+    currentPage: PropTypes.number.isRequired,
+    itemCount: PropTypes.number.isRequired,
+  }).isRequired,
+};
+
 
 export default PaginationContainer;
