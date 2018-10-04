@@ -16,28 +16,23 @@ const ShowTable = ({
   const { limit } = pagination;
   if (shows.length > limit - 1) getPosters(shows);
   let showsWithPosters = [];
-  if (urls.length > limit - 1) {
-    showsWithPosters = shows.map((show) => {
 
-      const len = urls.length
-
-      //for (let i = 0; i < len; i += 1){
-      //  if
-      //}
-
-      urls.forEach((url) => {
-        if (show.ids.tvdb === url.id) show.posterUrl = url.url
-      });
-      return show;
-    });
+  // if all urls loaded add them in each show by comparing id show.ids.tbdb and url.id
+  if (urls.length === shows.length) {
+    showsWithPosters = shows.map(show => ({
+      ...show,
+      posterUrl: urls.filter(url => url.id === show.ids.tvdb)[0].url,
+    }));
   }
+
   const preloaderStyle = {
     position: 'absolute',
     marginLeft: '48%',
     marginTop: '10%',
   };
+
   const preloader = <div style={preloaderStyle}><Spinner name="ball-grid-beat" color="purple" /></div>;
-  return  (
+  return (
     <table className="table table-hover">
       <ShowTableHeaderComponent />
       { urls.length > limit - 1 ? <ShowTableBodyComponent shows={showsWithPosters} /> : preloader}
