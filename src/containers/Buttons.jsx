@@ -8,12 +8,12 @@ import Sort from './Sort';
 const Buttons = () => (
   <table>
     <tbody>
-    <tr>
-    <td><Search /></td>
-    <td><Sort /></td>
-    <td><Categories /></td>
-    </tr>
-    <tr><Pagination /></tr>
+      <tr>
+        <td><Search /></td>
+        <td><Sort /></td>
+        <td><Categories /></td>
+      </tr>
+      <tr><Pagination /></tr>
     </tbody>
   </table>
 
