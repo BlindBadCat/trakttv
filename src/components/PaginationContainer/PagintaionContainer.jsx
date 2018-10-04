@@ -18,7 +18,7 @@ const PaginationContainer = ({ handleClick, pagination }) => {
       {currentPage < pageCount - 1 ? <button onClick={click} id={currentPage + 1} type="button" className="btn btn-info">{currentPage + 1}</button> : '' }
       {currentPage < pageCount - 2 ? <button onClick={click} id={currentPage + 2} type="button" className="btn btn-info">{currentPage + 2}</button> : '' }
       {currentPage < pageCount - 3 ? <button onClick={click} id={currentPage + 3} type="button" className="btn btn-info">{currentPage + 3}</button> : '' }
-      {currentPage !== pageCount ? <button onClick={click} id={pageCount} type="button" className="btn btn-info">Last</button> : '' }
+      {currentPage !== pageCount && pageCount !== 0 ? <button onClick={click} id={pageCount} type="button" className="btn btn-info">Last</button> : '' }
     </div>
   );
   return (
