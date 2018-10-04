@@ -34,13 +34,13 @@ const mapDispatchToProps = dispatch => ({
 Categories.propTypes = {
   urlParams: PropTypes.shape({
     pagination: PropTypes.shape({
-      pageCount: PropTypes.number,
-      limit: PropTypes.number,
-      currentPage: PropTypes.number,
-      itemCount: PropTypes.number,
+      pageCount: PropTypes.number.isRequired,
+      limit: PropTypes.number.isRequired,
+      currentPage: PropTypes.number.isRequired,
+      itemCount: PropTypes.number.isRequired,
     }),
-    searchUrl: PropTypes.string,
-    query: PropTypes.string,
+    searchUrl: PropTypes.string.isRequired,
+    query: PropTypes.string.isRequired,
   }).isRequired,
   resetForNewFetchAction: PropTypes.func.isRequired,
   fetchShowsIfNeededAction: PropTypes.func.isRequired,
