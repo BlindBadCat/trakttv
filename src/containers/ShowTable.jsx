@@ -7,16 +7,24 @@ import ShowTableBodyComponent from '../components/ShowTableBodyComponent';
 import ShowTableHeaderComponent from '../components/ShowTableHeaderComponent';
 
 const ShowTable = ({
-  shows, fetchPosterAction, urlParams, urls,
+  shows, fetchPosterAction, urls,
 }) => {
   const getPosters = () => {
     const ids = shows.map(i => i.ids.tvdb);
     fetchPosterAction(ids);
   };
-  const { pagination } = urlParams;
-  const { limit } = pagination;
-  if (shows.length > limit - 1) getPosters(shows);
-  let showsWithPosters = [];
+
+  const preloaderStyle = {
+    position: 'absolute',
+    marginLeft: '48%',
+    marginTop: '10%',
+  };
+
+  const preloader = <div style={preloaderStyle}><Spinner name="ball-grid-beat" color="purple" /></div>;
+
+  if (shows.length > 0) getPosters(shows);
+
+  let showsWithPosters = [...shows];
 
   // if all urls loaded add them in each show by comparing id show.ids.tbdb and url.id
   if (urls.length === shows.length) {
@@ -26,17 +34,10 @@ const ShowTable = ({
     }));
   }
 
-  const preloaderStyle = {
-    position: 'absolute',
-    marginLeft: '48%',
-    marginTop: '10%',
-  };
-
-  const preloader = <div style={preloaderStyle}><Spinner name="ball-grid-beat" color="purple" /></div>;
   return (
     <table className="table table-hover">
       <ShowTableHeaderComponent />
-      { urls.length > limit - 1 ? <ShowTableBodyComponent shows={showsWithPosters} /> : preloader}
+      { showsWithPosters.length ? <ShowTableBodyComponent shows={showsWithPosters} /> : preloader}
     </table>
   );
 };
@@ -52,17 +53,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 ShowTable.propTypes = {
-  urlParams: PropTypes.shape({
-    pagination: PropTypes.shape({
-      pageCount: PropTypes.number.isRequired,
-      limit: PropTypes.number.isRequired,
-      currentPage: PropTypes.number.isRequired,
-      itemCount: PropTypes.number.isRequired,
-    }),
-    searchUrl: PropTypes.string.isRequired,
-    query: PropTypes.string.isRequired,
-    genre: PropTypes.string.isRequired,
-  }).isRequired,
   shows: PropTypes.array.isRequired,
   fetchPosterAction: PropTypes.func.isRequired,
   urls: PropTypes.array.isRequired,
