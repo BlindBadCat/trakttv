@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { fetchShowsIfNeeded, resetForNewFetch, resetPostersForPagination } from '../actions';
 import CategoriesContainer from '../components/CategoriesContainer';
 
@@ -29,6 +30,22 @@ const mapDispatchToProps = dispatch => ({
   resetForNewFetchAction: () => dispatch(resetForNewFetch()),
   resetPostersForPaginationAction: () => dispatch(resetPostersForPagination()),
 });
+
+Categories.propTypes = {
+  urlParams: PropTypes.shape({
+    pagination: PropTypes.shape({
+      pageCount: PropTypes.number,
+      limit: PropTypes.number,
+      currentPage: PropTypes.number,
+      itemCount: PropTypes.number,
+    }),
+    searchUrl: PropTypes.string,
+    query: PropTypes.string,
+  }).isRequired,
+  resetForNewFetchAction: PropTypes.func.isRequired,
+  fetchShowsIfNeededAction: PropTypes.func.isRequired,
+  resetPostersForPaginationAction: PropTypes.func.isRequired,
+};
 
 export default connect(
   mapStateToProps,
