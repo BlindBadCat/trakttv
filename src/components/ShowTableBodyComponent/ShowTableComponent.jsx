@@ -32,19 +32,7 @@ const ShowTableComponent = ({ shows }) => (
 );
 
 ShowTableComponent.propTypes = {
-  shows: PropTypes.shape({
-    show: PropTypes.shape({
-      rating: PropTypes.string.isRequired,
-      year: PropTypes.number.isRequired,
-      aired_episodes: PropTypes.number.isRequired,
-      trailer: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      posterUrl: PropTypes.string.isRequired,
-      ids: PropTypes.shape({
-        tvdb: PropTypes.number.isRequired,
-      }).isRequired,
-    }).isRequired,
-  }).isRequired,
+  shows: PropTypes.array.isRequired,
 };
 
 export default ShowTableComponent;

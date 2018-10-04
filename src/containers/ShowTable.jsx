@@ -63,23 +63,9 @@ ShowTable.propTypes = {
     query: PropTypes.string.isRequired,
     genre: PropTypes.string.isRequired,
   }).isRequired,
-  shows: PropTypes.shape({
-    show: PropTypes.shape({
-      rating: PropTypes.string.isRequired,
-      year: PropTypes.number.isRequired,
-      aired_episodes: PropTypes.number.isRequired,
-      trailer: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      ids: PropTypes.shape({
-        tvdb: PropTypes.number.isRequired,
-      }).isRequired,
-    }).isRequired,
-  }).isRequired,
+  shows: PropTypes.array.isRequired,
   fetchPosterAction: PropTypes.func.isRequired,
-  urls: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    url: PropTypes.string.isRequired,
-  }).isRequired,
+  urls: PropTypes.array.isRequired,
 };
 
 
