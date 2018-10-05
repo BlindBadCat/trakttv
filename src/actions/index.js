@@ -17,10 +17,6 @@ const traktTVfetchInit = {
   mode: 'cors',
 };
 
-/**
- * parse int response headers
- * @param obj headers
- */
 
 const getPaginationFromFetchHeaders = headers => ({
   currentPage: parseInt(headers['x-pagination-page'], 10),
@@ -54,7 +50,7 @@ export function resetForNewFetch() {
   };
 }
 
-const fetchShows = urlParams => (dispatch) => {
+export const fetchShows = urlParams => (dispatch) => {
   const {
     searchUrl, pagination, query, genre,
   } = urlParams;
@@ -91,11 +87,6 @@ const getPosterRequest = () => ({
   type: C.GET_POSTER_URL_REQUEST,
 });
 
-const getPosterError = error => ({
-  type: C.GET_POSTER_URL_ERROR,
-  payload: error,
-});
-
 const getPosterUrl = (url, id) => ({
   type: C.GET_POSTER_URL_ADN_ID,
   payload: { id, url },
@@ -108,7 +99,6 @@ const fetchPoster = ids => (dispatch) => {
     const fanartShowURL = `https://webservice.fanart.tv/v3/tv/${ids[i]}?api_key=${fanartTVClientID}`;
     fetch(fanartShowURL)
       .then(response => response.json())
-      .catch(error => dispatch(getPosterError(error)))
       .then((json) => {
         const posterURL = json.tvposter ? json.tvposter[0].url : 'https://www.classicposters.com/images/nopicture.gif';
         return dispatch(getPosterUrl(posterURL, ids[i]));
