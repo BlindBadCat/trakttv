@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const SearchContainer = ({ handleSubmit }) => {
   const submit = (e) => {
@@ -13,6 +14,10 @@ const SearchContainer = ({ handleSubmit }) => {
       <button style={{ margin: 5 }} type="submit" className="btn btn-info mb-2">Search</button>
     </form>
   );
+};
+
+SearchContainer.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
 };
 
 export default SearchContainer;
