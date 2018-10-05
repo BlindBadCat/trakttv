@@ -1,2 +1,2 @@
-постеры грузятся в общий массив!
-pagination
+Router,
+Tests,
