@@ -21,20 +21,11 @@ const shows = (state = initialState, { type, payload }) => {
   switch (type) {
     case C.ADD_SHOWS:
       if (payload.shows) {
-        // check for count of shows if length == undef it's only 1 show
-        if (payload.shows && payload.shows.length) {
-          res = {
-            ...state,
-            shows: [...payload.shows.map(i => i.show)],
-            urlParams: { ...payload.urlParams, pagination: { ...payload.urlParams.pagination } },
-          };
-        } else {
-          res = {
-            ...state,
-            shows: [...payload.shows],
-            urlParams: { ...payload.urlParams, pagination: { ...payload.urlParams.pagination } },
-          };
-        }
+        res = {
+          ...state,
+          shows: [...payload.shows.map(i => i.show)],
+          urlParams: { ...payload.urlParams, pagination: { ...payload.urlParams.pagination } },
+        };
       } else {
         res = { ...state };
       }
