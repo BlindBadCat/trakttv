@@ -1,61 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { fetchShowsIfNeeded } from '../actions';
+import ShowTableBody from './ShowTableBody';
 import Head from '../components/Head';
-import Buttons from './Buttons';
-import MoviesList from './ShowTable';
-import PageNotFound404 from '../components/PageNotFound404';
+import Categories from './Categories';
+import Search from './Search';
+import Sort from './Sort';
+import Pagination from './Pagination';
+import { changeURLParams, fetchShows } from '../actions';
+import ShowTableHeaderComponent from '../components/ShowTableHeaderComponent';
+import Body from "../components/Body";
 
+export default class App extends React.Component {
+  render() {
+    return (
+      <div>
+        <Head>
+          <Categories />
+          <Search />
+          <Sort />
+          <Pagination />
+        </Head>
+        <Body>
+          <ShowTableHeaderComponent />
+          <ShowTableBody />
+        </Body>
+      </div>
 
-const App = ({ fetchShowsIfNeededAction, urlParams }) => {
-  const getUpdate = () => {
-    fetchShowsIfNeededAction(urlParams);
-  };
-
-  getUpdate();
-
-  return (
-    <div>
-      <Head />
-      <Buttons />
-      <BrowserRouter>
-        <Switch>
-          <Route path="/" exact component={MoviesList} />
-          <Route component={PageNotFound404} />
-        </Switch>
-      </BrowserRouter>
-
-    </div>
-
-  );
-};
-
-App.propTypes = {
-  fetchShowsIfNeededAction: PropTypes.func.isRequired,
-  urlParams: PropTypes.shape({
-    pagination: PropTypes.shape({
-      pageCount: PropTypes.number.isRequired,
-      limit: PropTypes.number.isRequired,
-      currentPage: PropTypes.number.isRequired,
-      itemCount: PropTypes.number.isRequired,
-    }).isRequired,
-    searchUrl: PropTypes.string.isRequired,
-    query: PropTypes.string.isRequired,
-    genre: PropTypes.string.isRequired,
-  }).isRequired,
-};
-
-const mapStateToProps = store => ({
-  urlParams: store.shows.urlParams,
-});
+    );
+  }
+}
 
 const mapDispatchToProps = dispatch => ({
-  fetchShowsIfNeededAction: urlParams => dispatch(fetchShowsIfNeeded(urlParams)),
+  changeURLParamsAction: param => dispatch(changeURLParams(param)),
+  fetchShowsAction: () => dispatch(fetchShows()),
 });
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(App);

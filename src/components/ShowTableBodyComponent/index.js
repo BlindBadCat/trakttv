@@ -1,3 +1,3 @@
-import ShowTableComponent from './ShowTableComponent';
+import ShowTableBodyComponent from './ShowTableBodyComponent';
 
-export default ShowTableComponent;
+export default ShowTableBodyComponent;

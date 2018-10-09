@@ -3,41 +3,39 @@ import C from '../constants';
 export const initialState = {
   isFetching: false,
   shows: [],
-  urlParams: {
-    searchUrl: 'shows/watched/all',
-    query: '',
-    genre: '',
-    pagination: {
-      pageCount: 5,
-      limit: 10,
-      currentPage: 1,
-      itemCount: 10,
-    },
-  },
+  sort: 'shows/watched/all',
+  query: '',
+  genre: '',
+  pageCount: 5,
+  limit: 10,
+  currentPage: 1,
+  itemCount: 10,
 };
 
 const shows = (state = initialState, { type, payload }) => {
-  let res;
   switch (type) {
-    case C.ADD_SHOWS:
-      if (payload.shows) {
-        res = {
-          ...state,
-          shows: [...payload.shows.map(i => i.show)],
-          urlParams: { ...payload.urlParams, pagination: { ...payload.urlParams.pagination } },
-        };
-      } else {
-        res = { ...state };
-      }
-
-      return res;
-    case C.GET_SHOWS_REQUEST:
+    case C.FETCH_SHOWS_REQUEST:
       return { ...state, isFetching: true };
-    case C.RESET_SHOWS_FOR_PAGINATION:
-      return { ...state, isFetching: false, shows: [] };
-    case C.GET_SHOWS_ERROR:
+    case C.FETCH_SHOWS_SUCCESS:
+      return {
+        ...state,
+        shows: [...payload.shows],
+        ...payload.pagination,
+        isFetching: false,
+      };
+    case C.FETCH_SHOWS_ERROR:
       console.log(payload);
       return { ...state };
+    case C.CHANGE_URL_PARAMS:
+      return { ...state, ...payload };
+    case C.ADD_POSTER_URL:
+      return {
+        ...state,
+        shows: state.shows.map(
+          show => (
+            show.show.ids.tvdb === payload.id ?
+              { ...show,show: {...show.show, posterURL: payload.url }} : show)),
+      };
     default: return state;
   }
 };

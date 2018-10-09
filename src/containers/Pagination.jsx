@@ -1,46 +1,46 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchShowsIfNeeded, resetForNewFetch, resetPostersForPagination } from '../actions';
+import { changeURLParams } from '../actions';
 import PaginationContainer from '../components/PaginationContainer/PagintaionContainer';
 
-const Pagination = ({
-  fetchShowsIfNeededAction, resetForNewFetchAction, urlParams, resetPostersForPaginationAction,
-}) => {
-  const onClickHandler = (currentPage) => {
-    const newParams = { ...urlParams, pagination: { ...urlParams.pagination, currentPage } };
-    resetPostersForPaginationAction();
-    resetForNewFetchAction();
-    fetchShowsIfNeededAction(newParams);
-  };
-  const { pagination } = urlParams;
-  return <PaginationContainer handleClick={onClickHandler} pagination={pagination} />;
-};
+class Pagination extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onClickHandler = this.onClickHandler.bind(this);
+  }
+
+  onClickHandler(e) {
+    e.preventDefault();
+    const currentPage = parseInt(e.target.id, 10);
+    const { changeURLParamsAction} = this.props;
+    changeURLParamsAction({ currentPage });
+  }
+
+  render() {
+    const { currentPage, pageCount } = this.props;
+    return (
+      <PaginationContainer
+        handleClick={this.onClickHandler}
+        currentPage={currentPage}
+        pageCount={pageCount}
+      />);
+  }
+}
 
 const mapStateToProps = store => ({
-  urlParams: store.shows.urlParams,
+  currentPage: store.shows.currentPage,
+  pageCount: store.shows.pageCount,
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchShowsIfNeededAction: urlParams => dispatch(fetchShowsIfNeeded(urlParams)),
-  resetForNewFetchAction: () => dispatch(resetForNewFetch()),
-  resetPostersForPaginationAction: () => dispatch(resetPostersForPagination()),
+  changeURLParamsAction: param => dispatch(changeURLParams(param)),
 });
 
 Pagination.propTypes = {
-  urlParams: PropTypes.shape({
-    pagination: PropTypes.shape({
-      pageCount: PropTypes.number.isRequired,
-      limit: PropTypes.number.isRequired,
-      itemCount: PropTypes.number.isRequired,
-    }),
-    searchUrl: PropTypes.string.isRequired,
-    query: PropTypes.string.isRequired,
-    genre: PropTypes.string.isRequired,
-  }).isRequired,
-  resetForNewFetchAction: PropTypes.func.isRequired,
-  fetchShowsIfNeededAction: PropTypes.func.isRequired,
-  resetPostersForPaginationAction: PropTypes.func.isRequired,
+  changeURLParamsAction: PropTypes.func.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  pageCount: PropTypes.number.isRequired,
 };
 
 export default connect(

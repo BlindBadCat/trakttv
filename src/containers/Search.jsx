@@ -1,52 +1,40 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchShowsIfNeeded, resetForNewFetch, resetPostersForPagination } from '../actions';
-import SearchContainer from '../components/SearchContainer/SearchContainer';
+import { changeURLParams } from '../actions';
+import SearchContainer from '../components/SearchContainer';
 
-const Search = ({
-  resetForNewFetchAction, fetchShowsIfNeededAction, resetPostersForPaginationAction, urlParams,
-}) => {
-  const handleSubmit = (value) => {
-    const query = `&query=${value}`;
-    const newParams = {
-      ...urlParams, query, genre: '', pagination: { ...urlParams.pagination, currentPage: 1 },
-    };
-    resetForNewFetchAction();
-    resetPostersForPaginationAction();
-    fetchShowsIfNeededAction(newParams);
-  };
+class Search extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
+  handleSubmit(e) {
+    e.preventDefault();
+    const { value } = e.target.search;
+    const { changeURLParamsAction } = this.props;
+    const payload = `&query=${value}`;
+    changeURLParamsAction({ query: payload });
+  }
 
-  return (
-    <SearchContainer handleSubmit={handleSubmit} />
-
-  );
-};
+  render() {
+    return (
+      <SearchContainer handleSubmit={this.handleSubmit} />
+    );
+  }
+}
 
 const mapStateToProps = store => ({
   urlParams: store.shows.urlParams,
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchShowsIfNeededAction: urlParams => dispatch(fetchShowsIfNeeded(urlParams)),
-  resetForNewFetchAction: () => dispatch(resetForNewFetch()),
-  resetPostersForPaginationAction: () => dispatch(resetPostersForPagination()),
+  changeURLParamsAction: param => dispatch(changeURLParams(param)),
 });
 
 Search.propTypes = {
-  urlParams: PropTypes.shape({
-    pagination: PropTypes.shape({
-      pageCount: PropTypes.number.isRequired,
-      limit: PropTypes.number.isRequired,
-      currentPage: PropTypes.number.isRequired,
-      itemCount: PropTypes.number.isRequired,
-    }),
-    searchUrl: PropTypes.string.isRequired,
-  }).isRequired,
-  resetForNewFetchAction: PropTypes.func.isRequired,
-  fetchShowsIfNeededAction: PropTypes.func.isRequired,
-  resetPostersForPaginationAction: PropTypes.func.isRequired,
+  changeURLParamsAction: PropTypes.func.isRequired,
 };
 
 export default connect(
