@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const SortComponent = ({ handleSelect }) => (
   <div className="col-sm">
     <div style={{ fontSize: 30 }} className="col-sm text-center">Sort:</div>
-    <select className="custom-select" onChange={handleSelect}>
+    <select id="selectSort" className="custom-select" onChange={handleSelect}>
       <option value="watched">Watched</option>
       <option value="collected">Collected</option>
       <option value="played">Played</option>
