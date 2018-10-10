@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { changeURLParams } from '../actions';
 import SortComponent from '../components/SortComponent/SortComponent';
 
-
 class Sort extends React.Component {
   constructor(props) {
     super(props);
@@ -36,7 +35,6 @@ const mapDispatchToProps = dispatch => ({
 Sort.propTypes = {
   changeURLParamsAction: PropTypes.func.isRequired,
 };
-
 
 export default connect(
   mapStateToProps,

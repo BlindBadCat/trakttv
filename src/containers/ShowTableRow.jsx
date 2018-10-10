@@ -1,38 +1,36 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import ShowTableRowComponent from '../components/ShowTableRowComponent';
 import ShowTableCell from './ShowTableCell';
-import { fetchPoster } from '../actions';
-import Poster from './Poster';
+import PosterComponent from '../components/PosterComponent';
 
 class ShowTableRow extends React.Component {
   render() {
+    const { show } = this.props;
     const {
-      trailer, year, rating, aired_episodes, title, ids, posterUrl
-    } = this.props.show.show;
+      trailer, year, rating, aired_episodes, title, posterURL,
+    } = show;
     const trailerLink = trailer ? <a href={trailer}>Watch</a> : <p>No Vid</p>;
-    const { tvdb } = ids;
     const ratingFormat = rating.toFixed(1);
     const arr = [title, ratingFormat, year, aired_episodes, trailerLink];
     return (
       <ShowTableRowComponent>
-        <Poster tvdb={tvdb} url={posterUrl}/>
-        {arr.map(cell => <ShowTableCell content={cell} />)}
+        <PosterComponent posterURL={posterURL} />
+        {arr.map((cell, i) => <ShowTableCell key={`${title}_cell_${i}`} content={cell} />)}
       </ShowTableRowComponent>
     );
   }
 }
 
+ShowTableRow.propTypes = {
+  show: PropTypes.shape({
+    rating: PropTypes.number.isRequired,
+    year: PropTypes.number.isRequired,
+    aired_episodes: PropTypes.number.isRequired,
+    trailer: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    posterURL: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
-const mapStateToProps = store => ({
-
-});
-
-const mapDispatchToProps = dispatch => ({
-  fetchPosterAction: id => dispatch(fetchPoster(id)),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ShowTableRow);
+export default ShowTableRow;

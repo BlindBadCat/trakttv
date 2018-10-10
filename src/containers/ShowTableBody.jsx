@@ -12,16 +12,20 @@ class ShowTableBody extends React.Component {
     this.initial();
   }
 
+  /*
+  if there is any changes in query, currentPage, sort, genre,
+  we should send new request for shows
+   */
+
   componentDidUpdate(prevProps) {
     const {
-      query, currentPage, sort, search, genre,
-    } = this.props.shows;
+      query, currentPage, sort, genre,
+    } = this.props;
     if (
-      query !== prevProps.shows.query
-      || genre !== prevProps.shows.genre
-      || search !== prevProps.shows.search
-      || sort !== prevProps.shows.sort
-      || currentPage !== prevProps.shows.currentPage) {
+      query !== prevProps.query
+      || genre !== prevProps.genre
+      || sort !== prevProps.sort
+      || currentPage !== prevProps.currentPage) {
       this.initial();
     }
   }
@@ -32,7 +36,7 @@ class ShowTableBody extends React.Component {
   }
 
   render() {
-    const { shows, itemCount } = this.props.shows;
+    const { shows, itemCount } = this.props;
     const preloaderStyle = {
       position: 'absolute',
       marginLeft: '48%',
@@ -40,10 +44,16 @@ class ShowTableBody extends React.Component {
     };
     const preloader = <div style={preloaderStyle}><Spinner name="ball-grid-beat" color="purple" /></div>;
     return (
-      shows.length > itemCount % 10 - 1
+      shows.length > (itemCount % 10) - 1
         ? (
           <ShowTableBodyComponent>
-            {shows.map(show => <ShowTableRow show={show} />)}
+            {shows.map(showWithFullInfo => (
+              <ShowTableRow
+                key={showWithFullInfo.show.title}
+                show={showWithFullInfo.show}
+              />
+            ))
+            }
           </ShowTableBodyComponent>
         ) : preloader
     );
@@ -51,14 +61,27 @@ class ShowTableBody extends React.Component {
 }
 
 const mapStateToProps = store => ({
-  shows: store.shows,
+  shows: store.shows.shows,
   itemCount: store.shows.itemCount,
+  currentPage: store.shows.currentPage,
+  query: store.shows.query,
+  sort: store.shows.sort,
+  genre: store.shows.genre,
 });
 
 const mapDispatchToProps = dispatch => ({
   fetchShowsAction: () => dispatch(fetchShows()),
 });
 
+ShowTableBody.propTypes = {
+  fetchShowsAction: PropTypes.func.isRequired,
+  shows: PropTypes.array.isRequired,
+  itemCount: PropTypes.number.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  query: PropTypes.string.isRequired,
+  sort: PropTypes.string.isRequired,
+  genre: PropTypes.string.isRequired,
+};
 
 export default connect(
   mapStateToProps,

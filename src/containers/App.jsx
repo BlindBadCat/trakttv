@@ -6,19 +6,18 @@ import Categories from './Categories';
 import Search from './Search';
 import Sort from './Sort';
 import Pagination from './Pagination';
-import { changeURLParams, fetchShows } from '../actions';
 import ShowTableHeaderComponent from '../components/ShowTableHeaderComponent';
-import Body from "../components/Body";
+import Body from '../components/Body';
 
-export default class App extends React.Component {
+class App extends React.Component {
   render() {
     return (
       <div>
         <Head>
           <Categories />
-          <Search />
           <Sort />
           <Pagination />
+          <Search />
         </Head>
         <Body>
           <ShowTableHeaderComponent />
@@ -30,7 +29,4 @@ export default class App extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  changeURLParamsAction: param => dispatch(changeURLParams(param)),
-  fetchShowsAction: () => dispatch(fetchShows()),
-});
+export default App;

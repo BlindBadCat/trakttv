@@ -15,7 +15,7 @@ class Search extends React.Component {
     const { value } = e.target.search;
     const { changeURLParamsAction } = this.props;
     const payload = `&query=${value}`;
-    changeURLParamsAction({ query: payload });
+    changeURLParamsAction({ query: payload, currentPage: 1 });
   }
 
   render() {
@@ -41,5 +41,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(Search);
-
-// noinspection BadExpressionStatementJS

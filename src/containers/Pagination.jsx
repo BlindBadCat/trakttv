@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { changeURLParams } from '../actions';
-import PaginationContainer from '../components/PaginationContainer/PagintaionContainer';
+import PaginationContainer from '../components/PaginationContainer';
 
 class Pagination extends React.Component {
   constructor(props) {
@@ -13,7 +13,7 @@ class Pagination extends React.Component {
   onClickHandler(e) {
     e.preventDefault();
     const currentPage = parseInt(e.target.id, 10);
-    const { changeURLParamsAction} = this.props;
+    const { changeURLParamsAction } = this.props;
     changeURLParamsAction({ currentPage });
   }
 

@@ -24,18 +24,9 @@ const shows = (state = initialState, { type, payload }) => {
         isFetching: false,
       };
     case C.FETCH_SHOWS_ERROR:
-      console.log(payload);
       return { ...state };
     case C.CHANGE_URL_PARAMS:
       return { ...state, ...payload };
-    case C.ADD_POSTER_URL:
-      return {
-        ...state,
-        shows: state.shows.map(
-          show => (
-            show.show.ids.tvdb === payload.id ?
-              { ...show,show: {...show.show, posterURL: payload.url }} : show)),
-      };
     default: return state;
   }
 };

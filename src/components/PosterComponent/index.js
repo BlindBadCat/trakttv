@@ -1,3 +1,3 @@
-import Poster from './Poster';
+import PosterComponent from './PosterComponent';
 
-export default Poster;
+export default PosterComponent;

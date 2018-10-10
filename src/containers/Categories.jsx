@@ -15,7 +15,7 @@ class Categories extends React.Component {
     const { value } = e.target;
     const { changeURLParamsAction } = this.props;
     const payload = `&genres=${value}`;
-    changeURLParamsAction({ genre: payload });
+    changeURLParamsAction({ genre: payload, currentPage: 1 });
   }
 
   render() {

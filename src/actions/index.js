@@ -42,52 +42,53 @@ const fetchShowsError = error => ({
   payload: error,
 });
 
+export const fetchPoster = id => (dispatch) => {
+  const fanartPosterURL = `https://webservice.fanart.tv/v3/tv/${id}?api_key=${fanartTVClientID}`;
+  return fetch(fanartPosterURL)
+    .then(response => response.json())
+    .then((json) => {
+      // if request are bad, or there is no TV poster in their base return default url
+      const defaultURL = 'https://www.classicposters.com/images/nopicture.gif';
+      return json.tvposter ? json.tvposter[0].url : defaultURL;
+    });
+};
+
 export const fetchShows = () => (dispatch, getState) => {
-  if(!getState().shows.isFetching){
   const {
     sort, query, genre, currentPage, limit,
   } = getState().shows;
   const urlForTraktTVFetch = `https://api.trakt.tv/${sort}?extended=full&page=${currentPage}&limit=${limit}${query}${genre}`;
-  dispatch(fetchShowsRequest());
   let newPagination;
+
+  dispatch(fetchShowsRequest());
+
   return fetch(urlForTraktTVFetch, traktTVFetchInit)
     .then((response) => {
+      // we need pagination headers to be dispatched later in store
       newPagination = getPaginationFromFetchHeaders(response.headers.map);
       return response.json();
     })
     .catch(error => dispatch(fetchShowsError(error)))
-    .then(json => dispatch(addShows(json, newPagination)));}
+    /* after shows loaded fetch posters and add them to show,
+     Promise.all saves the order of posters for each show
+    */
+    .then((json) => {
+      const ids = json.map(show => show.show.ids.tvdb); // array with id of each show
+      const urls = Promise.all(ids.map(id => dispatch(fetchPoster(id)))); // fetching posters
+      urls.then((data) => {
+        // adding posters to each show
+        const shows = json.map((showWithInfo, i) => (
+          {
+            ...showWithInfo,
+            show: { ...showWithInfo.show, posterURL: data[i] },
+          }
+        ));
+        dispatch(addShows(shows, newPagination));
+      });
+    });
 };
 
 export const changeURLParams = newParams => ({
   type: C.CHANGE_URL_PARAMS,
   payload: newParams,
 });
-
-const addPosterUrl = (url, id) => ({
-  type: C.ADD_POSTER_URL,
-  payload: { id, url },
-});
-
-export const fetchPoster = id => (dispatch) => {
-  const fanartPosterURL = `https://webservice.fanart.tv/v3/tv/${id}?api_key=${fanartTVClientID}`;
-  fetch(fanartPosterURL)
-    .then(response => response.json())
-    .then((json) => {
-      const posterURL = json.tvposter ? json.tvposter[0].url : 'https://www.classicposters.com/images/nopicture.gif';
-      return dispatch(addPosterUrl(posterURL, id));
-    });
-};
-
-
-/*
-const fetchPoster = ids => (dispatch) => {
-  dispatch(getPosterRequest());
-  const len = ids.length;
-  for (let i = 0; i < len; i += 1) {
-
-
-  }
-};
-
-*/
