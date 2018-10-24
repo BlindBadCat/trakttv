@@ -1,0 +1,110 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tests for shows reducer should handle CHANGE_URL_PARAMS 1`] = `
+Object {
+  "currentPage": 5,
+  "genre": "",
+  "isFetching": false,
+  "itemCount": 10,
+  "limit": 10,
+  "pageCount": 5,
+  "query": "",
+  "shows": Array [],
+  "sort": "shows/watched/all",
+}
+`;
+
+exports[`Tests for shows reducer should handle FETCH_SHOWS_ERROR 1`] = `
+Object {
+  "currentPage": 1,
+  "genre": "",
+  "isFetching": false,
+  "itemCount": 10,
+  "limit": 10,
+  "pageCount": 5,
+  "query": "",
+  "shows": Array [],
+  "sort": "shows/watched/all",
+}
+`;
+
+exports[`Tests for shows reducer should handle FETCH_SHOWS_REQUEST 1`] = `
+Object {
+  "currentPage": 1,
+  "genre": "",
+  "isFetching": true,
+  "itemCount": 10,
+  "limit": 10,
+  "pageCount": 5,
+  "query": "",
+  "shows": Array [],
+  "sort": "shows/watched/all",
+}
+`;
+
+exports[`Tests for shows reducer should handle FETCH_SHOWS_SUCCESS 1`] = `
+Object {
+  "currentPage": 1,
+  "genre": "",
+  "isFetching": false,
+  "itemCount": 40000,
+  "limit": 10,
+  "pageCount": 4000,
+  "query": "",
+  "shows": Array [
+    Object {
+      "show": Object {
+        "title": "show1",
+      },
+      "someValue": 1,
+    },
+    Object {
+      "show": Object {
+        "title": "show2",
+      },
+      "someValue": 2,
+    },
+    Object {
+      "show": Object {
+        "title": "show3",
+      },
+      "someValue": 3,
+    },
+    Object {
+      "show": Object {
+        "title": "show4",
+      },
+      "someValue": 4,
+    },
+  ],
+  "sort": "shows/watched/all",
+}
+`;
+
+exports[`Tests for shows reducer should handle wrong actions 1`] = `
+Object {
+  "currentPage": 1,
+  "genre": "",
+  "isFetching": false,
+  "itemCount": 10,
+  "limit": 10,
+  "pageCount": 5,
+  "query": "",
+  "shows": Array [],
+  "sort": "shows/watched/all",
+}
+`;
+
+exports[`Tests for shows reducer should return the initial state 1`] = `
+Object {
+  "currentPage": 1,
+  "genre": "",
+  "isFetching": false,
+  "itemCount": 10,
+  "limit": 10,
+  "pageCount": 5,
+  "query": "",
+  "shows": Array [],
+  "sort": "shows/watched/all",
+}
+`;
