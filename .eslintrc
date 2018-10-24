@@ -19,7 +19,8 @@
     // a function will be skipped.
   },
   "plugins": [
-    "react"
+    "react",
+    "jest"
   ],
   "parserOptions": {
     "ecmaFeatures": {
@@ -28,6 +29,11 @@
   },
   "rules": {
     "react/jsx-uses-react": "error",
-    "react/jsx-uses-vars": "error"
+    "react/jsx-uses-vars": "error",
+    "jest/no-disabled-tests": "warn",
+    "jest/no-focused-tests": "error",
+    "jest/no-identical-title": "error",
+    "jest/prefer-to-have-length": "warn",
+    "jest/valid-expect": "error"
   }
 }

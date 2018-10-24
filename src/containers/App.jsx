@@ -9,7 +9,8 @@ import SortComponent from '../components/SortComponent';
 import Pagination from './Pagination';
 import ShowTableHeaderComponent from '../components/ShowTableHeaderComponent';
 import Body from '../components/Body';
-import { changeURLParams } from '../actions';
+import { changeURLParams, fetchShows } from '../actions';
+import ShowDescriptionComponent from '../components/ShowDescriptionComponent';
 
 class App extends React.Component {
   constructor(props) {
@@ -38,8 +39,10 @@ class App extends React.Component {
   }
 
   render() {
+    const { fetchShowsAction } = this.props;
     return (
       <div>
+        <ShowDescriptionComponent />
         <Head>
           <CategoriesContainer handleSelect={this.handleSelect} />
           <SortComponent handleSelect={this.handleSelect} />
@@ -48,10 +51,9 @@ class App extends React.Component {
         </Head>
         <Body>
           <ShowTableHeaderComponent />
-          <ShowTableBody />
+          <ShowTableBody fetchShowsAction={fetchShowsAction} />
         </Body>
       </div>
-
     );
   }
 }
@@ -60,10 +62,12 @@ const mapStateToProps = store => ({});
 
 const mapDispatchToProps = dispatch => ({
   changeURLParamsAction: param => dispatch(changeURLParams(param)),
+  fetchShowsAction: () => dispatch(fetchShows()),
 });
 
 App.propTypes = {
   changeURLParamsAction: PropTypes.func.isRequired,
+  fetchShowsAction: PropTypes.func.isRequired,
 };
 
 export default connect(

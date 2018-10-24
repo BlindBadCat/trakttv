@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const PageNotFound = ({ location }) => (
+const PageNotFound404 = ({ location }) => (
   <div style={{ textAlign: 'center' }}>
     <p className="h1">
       {' '}
@@ -21,10 +21,10 @@ NOT FOUND
     />
   </div>);
 
-PageNotFound.propTypes = {
+PageNotFound404.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
   }).isRequired,
 };
 
-export default PageNotFound;
+export default PageNotFound404;

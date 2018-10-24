@@ -1,0 +1,25 @@
+import React from 'react';
+import { shallow } from 'enzyme';
+import toJson from 'enzyme-to-json';
+import configureStore from 'redux-mock-store';
+import Head from '../../src/components/Head';
+import Search from '../../src/components/SearchContainer';
+import CategoriesContainer from '../../src/components/CategoriesContainer';
+import Pagination from '../../src/components/PaginationContainer';
+import SortComponent from '../../src/components/SortComponent/SortComponent';
+
+describe('Head component tests', () => {
+  it('contain two children Whoops404', () => {
+    const wrapper = shallow(
+      <Head>
+        <CategoriesContainer />
+        <SortComponent />
+        <Pagination />
+        <Search />
+      </Head>,
+    );
+    const component = wrapper.dive();
+
+    expect(toJson(component)).toMatchSnapshot();
+  });
+});

@@ -17,7 +17,6 @@ const traktTVFetchInit = {
   mode: 'cors',
 };
 
-
 const getPaginationFromFetchHeaders = headers => ({
   currentPage: parseInt(headers['x-pagination-page'], 10),
   pageCount: parseInt(headers['x-pagination-page-count'], 10),
@@ -25,7 +24,7 @@ const getPaginationFromFetchHeaders = headers => ({
   itemCount: parseInt(headers['x-pagination-item-count'], 10),
 });
 
-export const addShows = (shows, pagination) => ({
+const addShows = (shows, pagination) => ({
   type: C.FETCH_SHOWS_SUCCESS,
   payload: {
     shows,
@@ -33,7 +32,7 @@ export const addShows = (shows, pagination) => ({
   },
 });
 
-const fetchShowsRequest = () => ({
+export const fetchShowsRequest = () => ({
   type: C.FETCH_SHOWS_REQUEST,
 });
 

@@ -12,7 +12,7 @@ export const initialState = {
   itemCount: 10,
 };
 
-const shows = (state = initialState, { type, payload }) => {
+const shows = (state = initialState, { type = '', payload = {} }) => {
   switch (type) {
     case C.FETCH_SHOWS_REQUEST:
       return { ...state, isFetching: true };

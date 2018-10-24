@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Spinner from 'react-spinkit';
 import { connect } from 'react-redux';
 import ShowTableBodyComponent from '../components/ShowTableBodyComponent';
-import { fetchShows } from '../actions';
 import ShowTableRow from './ShowTableRow';
 
 
@@ -69,9 +68,6 @@ const mapStateToProps = store => ({
   genre: store.shows.genre,
 });
 
-const mapDispatchToProps = dispatch => ({
-  fetchShowsAction: () => dispatch(fetchShows()),
-});
 
 ShowTableBody.propTypes = {
   fetchShowsAction: PropTypes.func.isRequired,
@@ -85,5 +81,4 @@ ShowTableBody.propTypes = {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
 )(ShowTableBody);
