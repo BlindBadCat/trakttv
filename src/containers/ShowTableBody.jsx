@@ -7,34 +7,9 @@ import ShowTableRow from './ShowTableRow';
 
 
 class ShowTableBody extends React.Component {
-  componentDidMount() {
-    this.initial();
-  }
-
-  /*
-  if there is any changes in query, currentPage, sort, genre,
-  we should send new request for shows
-   */
-
-  componentDidUpdate(prevProps) {
-    const {
-      query, currentPage, sort, genre,
-    } = this.props;
-    if (
-      query !== prevProps.query
-      || genre !== prevProps.genre
-      || sort !== prevProps.sort
-      || currentPage !== prevProps.currentPage) {
-      this.initial();
-    }
-  }
-
-  initial() {
-    const { fetchShowsAction } = this.props;
-    fetchShowsAction();
-  }
 
   render() {
+    console.log('table render')
     const { shows, itemCount } = this.props;
     const preloaderStyle = {
       position: 'absolute',

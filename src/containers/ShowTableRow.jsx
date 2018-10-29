@@ -15,12 +15,13 @@ class ShowTableRow extends React.Component {
     const ratingFormat = rating.toFixed(1);
     const arr = [title, ratingFormat, year, aired_episodes, trailerLink];
     const descId = title.split(' ').join('');
+    //<ShowDescriptionComponent id={descId} key={`${title}_modal`} title={title} overview={overview} />
     return (
       <ShowTableRowComponent descId={descId}>
         <PosterComponent posterURL={posterURL} />
         {arr.map((cell, i) => <ShowTableCell key={`${title}_cell_${i}`} content={cell} />)}
 
-        <ShowDescriptionComponent id={descId} key={`${title}_modal`} title={title} overview={overview} />
+
       </ShowTableRowComponent>
     );
   }

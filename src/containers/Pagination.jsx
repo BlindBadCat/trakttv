@@ -1,49 +1,53 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { changeURLParams } from '../actions';
-import PaginationContainer from '../components/PaginationContainer';
+import { withRouter } from 'react-router';
+import PaginationButtonComponent from '../components/PaginationButtonComponent';
+
+import PaginationComponent from '../components/PaginationComponent';
 
 class Pagination extends React.Component {
-  constructor(props) {
-    super(props);
-    this.onClickHandler = this.onClickHandler.bind(this);
-  }
-
-  onClickHandler(e) {
-    e.preventDefault();
-    const currentPage = parseInt(e.target.id, 10);
-    const { changeURLParamsAction } = this.props;
-    changeURLParamsAction({ currentPage });
-  }
-
   render() {
-    const { currentPage, pageCount } = this.props;
+    const { pageCount } = this.props;
+    const { match } = this.props;
+    const { params } = match;
+    const {
+      sort = 'watched', query = '', genre = '',
+    } = params;
+    let { page } = params;
+    page = parseInt(page, 10);
     return (
-      <PaginationContainer
-        handleClick={this.onClickHandler}
-        currentPage={currentPage}
-        pageCount={pageCount}
-      />);
+      <PaginationComponent>
+        {page > 4 ? <PaginationButtonComponent sort={sort} genre={genre} query={query} page={1} /> : '' }
+        {page > 3 ? <PaginationButtonComponent sort={sort} genre={genre} query={query} page={page - 3} /> : ''}
+        {page > 2 ? <PaginationButtonComponent sort={sort} genre={genre} query={query} page={page - 2} /> : ''}
+        {page > 1 ? <PaginationButtonComponent sort={sort} genre={genre} query={query} page={page - 1} /> : ''}
+        <PaginationButtonComponent sort={sort} genre={genre} query={query} page={page} />
+        {page < pageCount - 1 ? <PaginationButtonComponent sort={sort} genre={genre} query={query} page={page + 1} /> : '' }
+        {page < pageCount - 2 ? <PaginationButtonComponent sort={sort} genre={genre} query={query} page={page + 2} /> : '' }
+        {page < pageCount - 3 ? <PaginationButtonComponent sort={sort} genre={genre} query={query} page={page + 3} /> : '' }
+        {page !== pageCount && pageCount !== 0 ? <PaginationButtonComponent sort={sort} genre={genre} query={query} page={pageCount} /> : '' }
+      </PaginationComponent>);
   }
 }
 
 const mapStateToProps = store => ({
-  currentPage: store.shows.currentPage,
   pageCount: store.shows.pageCount,
 });
 
-const mapDispatchToProps = dispatch => ({
-  changeURLParamsAction: param => dispatch(changeURLParams(param)),
-});
 
 Pagination.propTypes = {
-  changeURLParamsAction: PropTypes.func.isRequired,
-  currentPage: PropTypes.number.isRequired,
   pageCount: PropTypes.number.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      page: PropTypes.string.isRequired,
+      query: PropTypes.string.isRequired,
+      sort: PropTypes.string.isRequired,
+      genre: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
 };
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
-  mapDispatchToProps,
-)(Pagination);
+)(Pagination));

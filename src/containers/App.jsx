@@ -1,73 +1,82 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { HashRouter, Route, Redirect } from 'react-router-dom';
 import ShowTableBody from './ShowTableBody';
 import Head from '../components/Head';
-import CategoriesContainer from '../components/CategoriesContainer';
+import CategoriesContainer from './CategoriesContainer';
 import Search from './Search';
-import SortComponent from '../components/SortComponent';
+import SortContainer from './SortContainer';
 import Pagination from './Pagination';
 import ShowTableHeaderComponent from '../components/ShowTableHeaderComponent';
 import Body from '../components/Body';
-import { changeURLParams, fetchShows } from '../actions';
+import { fetchShowsWithSaga } from '../actions';
 import ShowDescriptionComponent from '../components/ShowDescriptionComponent';
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleSelect = this.handleSelect.bind(this);
+  componentDidMount() {
+    this.initial();
   }
 
-  handleSelect(e) {
-    e.preventDefault();
-    const { id } = e.target;
-    const { value } = e.target;
-    const { changeURLParamsAction } = this.props;
-    let payload;
-    switch (id) {
-      case 'selectGenre':
-        payload = `&genres=${value}`;
-        changeURLParamsAction({ genre: payload, currentPage: 1 });
-        break;
-      case 'selectSort':
-        payload = `shows/${value}/all`;
-        changeURLParamsAction({ sort: payload });
-        break;
-      default:
-        changeURLParamsAction({});
+  initial() {
+    const { fetchShowsWithSagaAction } = this.props;
+    const { params } = this.props.match;
+    const {
+      page, query, genre, sort,
+    } = params;
+    console.log('initial');
+    fetchShowsWithSagaAction({
+      page, query, genre, sort,
+    });
+  }
+
+  componentDidUpdate({ match }) {
+    const { fetchShowsWithSagaAction } = this.props;
+    const { params } = this.props.match;
+    const {
+      page, query, genre, sort,
+    } = params;
+    if (match.params.page !== page
+      || match.params.query !== query
+      || match.params.genre !== genre
+      || match.params.sort !== sort
+    ) {
+      console.log('prefetch');
+      fetchShowsWithSagaAction({
+        page, query, genre, sort,
+      });
     }
   }
 
   render() {
     const { fetchShowsAction } = this.props;
+    console.log('app render');
     return (
       <div>
-        <ShowDescriptionComponent />
         <Head>
-          <CategoriesContainer handleSelect={this.handleSelect} />
-          <SortComponent handleSelect={this.handleSelect} />
           <Pagination />
-          <Search />
+          <Search/>
+          <CategoriesContainer />
+          <SortContainer />
         </Head>
         <Body>
           <ShowTableHeaderComponent />
-          <ShowTableBody fetchShowsAction={fetchShowsAction} />
+          <Route path="/">
+            <ShowTableBody fetchShowsAction={fetchShowsAction} />
+          </Route>
         </Body>
       </div>
     );
   }
 }
 
-const mapStateToProps = store => ({});
+const mapStateToProps = () => ({});
 
 const mapDispatchToProps = dispatch => ({
-  changeURLParamsAction: param => dispatch(changeURLParams(param)),
-  fetchShowsAction: () => dispatch(fetchShows()),
+  fetchShowsWithSagaAction: payload => dispatch(fetchShowsWithSaga(payload)),
 });
 
 App.propTypes = {
-  changeURLParamsAction: PropTypes.func.isRequired,
-  fetchShowsAction: PropTypes.func.isRequired,
 };
 
 export default connect(

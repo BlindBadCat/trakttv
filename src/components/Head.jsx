@@ -9,7 +9,7 @@ const Head = ({ children }) => (
       {children[1]}
       {' '}
     </div>
-    <div className="row">
+    <div className=''>
       {children[2]}
       {' '}
       {children[3]}
